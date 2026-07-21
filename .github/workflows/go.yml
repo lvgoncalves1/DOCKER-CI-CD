@@ -34,6 +34,14 @@ jobs:
       - name: Start DB
         run: docker compose up -d
 
+      - name: Wait for Postgres
+        run: |
+          until docker compose exec -T postgres pg_isready -U root
+          do
+            echo "Waiting for postgres..."
+            sleep 2
+          done
+      
       - name: Run tests
         env:
           DB_HOST: localhost
