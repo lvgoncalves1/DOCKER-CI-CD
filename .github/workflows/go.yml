@@ -35,8 +35,10 @@ jobs:
         run: docker compose up -d
 
       - name: Run tests
+        env:
+          DB_HOST: postgres
         run: go test -v ./...
-
+        
       - name: Stop DB
         if: always()
         run: docker compose down
