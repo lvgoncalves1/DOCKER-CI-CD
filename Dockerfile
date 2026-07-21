@@ -4,6 +4,10 @@ EXPOSE 8000
 
 WORKDIR /app
 
-COPY ./main /main
+ENV HOST=localhost PORT=5432 
 
-CMD ["./main"]
+ENV USER=root PASSWORD=root DBNAME=root
+
+COPY ./main main
+
+CMD ["./main"] 
