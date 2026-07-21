@@ -1,5 +1,4 @@
 name: Go
-
 on:
   push:
     branches:
@@ -77,3 +76,7 @@ jobs:
 
       - name: Build
         run: go build -v .
+
+  docker:
+    needs: build
+    uses: ./.github/workflows/Docker.yml
