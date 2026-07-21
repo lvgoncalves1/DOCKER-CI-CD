@@ -11,10 +11,11 @@ on:
 jobs:
   test:
     runs-on: ${{ matrix.os }}
+
     strategy:
       matrix:
         go-version: ["1.22", "1.23"]
-        os: 
+        os:
           - ubuntu-latest
           - ubuntu-22.04
 
@@ -28,11 +29,14 @@ jobs:
           go-version: ${{ matrix.go-version }}
           cache: true
 
-      - name: Build DB
-        run: docker compose build
-
-      - name: Start DB
+      - name: Start database
         run: docker compose up -d
+
+      - name: Show containers
+        run: docker ps -a
+
+      - name: Show postgres logs
+        run: docker compose logs postgres
 
       - name: Wait for Postgres
         run: |
@@ -41,24 +45,26 @@ jobs:
             echo "Waiting for postgres..."
             sleep 2
           done
-      
+
       - name: Run tests
         env:
           DB_HOST: localhost
         run: go test -v ./...
-        
-      - name: Stop DB
+
+      - name: Stop database
         if: always()
-        run: docker compose down
+        run: docker compose down -v
 
   build:
     needs: test
     runs-on: ${{ matrix.os }}
+
     strategy:
       matrix:
-        os: 
+        os:
           - ubuntu-latest
           - ubuntu-22.04
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
