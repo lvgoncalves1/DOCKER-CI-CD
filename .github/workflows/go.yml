@@ -32,12 +32,6 @@ jobs:
       - name: Start database
         run: docker compose up -d
 
-      - name: Show containers
-        run: docker ps -a
-
-      - name: Show postgres logs
-        run: docker compose logs postgres
-
       - name: Wait for Postgres
         run: |
           until docker compose exec -T postgres pg_isready -U root
