@@ -42,7 +42,7 @@ jobs:
         run: |
           until docker compose exec -T postgres pg_isready -U root
           do
-            echo "Waiting for postgres..."
+            echo "Waiting for postgres.."
             sleep 2
           done
 
