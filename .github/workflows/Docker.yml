@@ -21,6 +21,10 @@ jobs:
         with:
             username: lucasver17
             password: ${{ secrets.PASSWORD_DOCKER_HUB }}
+      - name: Debug files
+        run: |
+            pwd
+            ls -la
       - name: Build e push docker hub
         uses: docker/build-push-action@v3
         with:
