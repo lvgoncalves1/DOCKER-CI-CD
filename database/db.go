@@ -27,13 +27,13 @@ func ConectaComBancoDeDados() {
     }
 
 	stringDeConexao := fmt.Sprintf(
-		"host=%s user=%s password=%s dbname=%s port=%s sslmode=%s",
+		"host=%s user=%s password=%s dbname=%s port=%s sslmode=%",
 		host,
 		user,
 		password,
 		dbname,
 		port,
-		sslmode
+		sslmode,
 	)
 	
 	DB, err = gorm.Open(postgres.Open(stringDeConexao), &gorm.Config{})
