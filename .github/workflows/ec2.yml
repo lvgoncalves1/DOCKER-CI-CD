@@ -32,22 +32,21 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            set -x
-
-            echo "INICIO"
-            pwd
-            ls -lah
-
-            pkill -f main || true
-
+            # Trocamos o -f por -x para matar apenas o executável exato
+            pkill -x main || true
+            sleep 2
+            
+            export HOST=${{ secrets.DBHOST }}
+            export USER=${{ secrets.DBUSER }}
+            export PASSWORD=${{ secrets.DBPASSWORD }}
+            export DBNAME=${{ secrets.DBNAME }}
+            export DBPORT=${{ secrets.DBPORT }}
+            export PORT=8080
+            
             chmod +x main
-
-            echo "Executando..."
-
-            nohup ./main > api.log 2>&1 < /dev/null &
-
-            sleep 3
-
-            ps -ef | grep main
-
-            echo "FIM"
+            
+            # Mantemos o setsid para liberar a porta SSH com segurança
+            setsid ./main > api.log 2>&1 < /dev/null &
+            
+            sleep 1
+            exit 0
