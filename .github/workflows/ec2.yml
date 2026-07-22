@@ -32,13 +32,22 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            pkill -f ./main || true
+            pkill -f main || true
             sleep 2
+
             export HOST=${{ secrets.DBHOST }}
             export USER=${{ secrets.DBUSER }}
             export PASSWORD=${{ secrets.DBPASSWORD }}
             export DBNAME=${{ secrets.DBNAME }}
             export DBPORT=${{ secrets.DBPORT }}
             export PORT=8080
+
             chmod +x main
+
             nohup ./main > api.log 2>&1 < /dev/null &
+
+            sleep 2
+
+            ps -ef | grep main
+
+            exit 0
