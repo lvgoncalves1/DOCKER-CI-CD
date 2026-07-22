@@ -21,14 +21,19 @@ func ConectaComBancoDeDados() {
 	password := os.Getenv("PASSWORD")
 	dbname := os.Getenv("DBNAME")
 	port := os.Getenv("DBPORT")
+	sslmode := os.Getenv("SSL_MODE")
+    if sslmode == "" {
+        sslmode = "require" // Padrão seguro para a AWS
+    }
 
 	stringDeConexao := fmt.Sprintf(
-		"host=%s user=%s password=%s dbname=%s port=%s sslmode=require",
+		"host=%s user=%s password=%s dbname=%s port=%s sslmode=%s",
 		host,
 		user,
 		password,
 		dbname,
 		port,
+		sslmode
 	)
 	
 	DB, err = gorm.Open(postgres.Open(stringDeConexao), &gorm.Config{})

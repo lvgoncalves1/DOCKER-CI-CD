@@ -16,6 +16,7 @@ jobs:
       USER: root
       PASSWORD: root
       DBNAME: root
+      SSL_MODE: disable
 
     strategy:
       matrix:
